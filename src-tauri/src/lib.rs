@@ -2,7 +2,7 @@ use tauri_plugin_sql::{Builder, Migration, MigrationKind};
 
 pub fn run() {
     // Cada cambio de esquema es una migración nueva; nunca editar una ya publicada.
-    let migrations = vec![Migration {
+    let migraciones = vec![Migration {
         version: 1,
         description: "esquema inicial",
         sql: include_str!("../migrations/0001_init.sql"),
@@ -12,7 +12,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(
             Builder::default()
-                .add_migrations("sqlite:gym.db", migrations)
+                .add_migrations("sqlite:gym.db", migraciones)
                 .build(),
         )
         .run(tauri::generate_context!())

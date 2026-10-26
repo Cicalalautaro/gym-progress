@@ -1,15 +1,15 @@
 import Database from "@tauri-apps/plugin-sql";
 
 // Las migraciones se aplican en Rust al iniciar el plugin (src-tauri/src/lib.rs),
-// así que cuando esto resuelve, el esquema ya está al día.
-let dbPromise: Promise<Database> | null = null;
+// así que cuando esta promesa resuelve, el esquema ya está al día.
+let promesaBaseDatos: Promise<Database> | null = null;
 
-export function getDb(): Promise<Database> {
-  if (!dbPromise) {
-    dbPromise = Database.load("sqlite:gym.db").then(async (db) => {
-      await db.execute("PRAGMA foreign_keys = ON");
-      return db;
+export function obtenerBaseDatos(): Promise<Database> {
+  if (!promesaBaseDatos) {
+    promesaBaseDatos = Database.load("sqlite:gym.db").then(async (bd) => {
+      await bd.execute("PRAGMA foreign_keys = ON");
+      return bd;
     });
   }
-  return dbPromise;
+  return promesaBaseDatos;
 }
